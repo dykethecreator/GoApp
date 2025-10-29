@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "github.com/your-username/goWhatsapp/proto/chat";
+
+service ChatService {
+    rpc GetChats(GetChatsRequest) returns (GetChatsResponse);
+    rpc CreateChat(CreateChatRequest) returns (CreateChatResponse);
+}
+
+message GetChatsRequest {
+    string user_id = 1;
+}
+
+message GetChatsResponse {
+    repeated Chat chats = 1;
+}
+
+message Chat {
+    string id = 1;
+    string name = 2;
+    string last_message = 3;
+}
+
+message CreateChatRequest {
+    string name = 1;
+    repeated string member_ids = 2;
+}
+
+message CreateChatResponse {
+    Chat chat = 1;
+}

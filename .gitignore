@@ -1,0 +1,29 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin
+/vendor/
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when run with the
+# -o option
+*.out
+
+# IDE settings
+.idea/
+.vscode/
+
+# Local config
+configs/config.dev.yaml
+configs/config.prod.yaml
+
+# Environment variables
+.env
+.env.local
+.env.docker
+.env.*

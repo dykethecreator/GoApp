@@ -1,0 +1,2 @@
+// Concrete implementation of message repository
+package store

@@ -1,0 +1,22 @@
+# Docker-specific ignores
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Go'nun vendor klasörünü kopyalama, bu derleme sorunlarına yol açıyor
+vendor
+
+# Git-specific ignores
+.git
+.gitignore
+
+# Go-specific ignores
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Binaries for programs and plugins
+bin/
+# IMPORTANT: Do NOT ignore the source code folder `pkg/` in this repository

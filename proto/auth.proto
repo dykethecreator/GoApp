@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/dykethecreator/GoApp/proto";
+
+// User message represents the user entity based on the database schema.
+message User {
+    string id = 1;
+    string phone_number = 2;
+    string display_name = 3;
+    string profile_picture_url = 4;
+    string about_text = 5;
+    string last_seen_at = 6; // Using string for timestamp (e.g., RFC3339)
+    string created_at = 7;
+    string updated_at = 8;
+}
+
+// AuthService defines the authentication and authorization services.
+service AuthService {
+    rpc SendOTP(SendOTPRequest) returns (SendOTPResponse);
+
+    rpc VerifyOTP(VerifyOTPRequest) returns (VerifyOTPResponse);
+
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+
+    // Revoke current device by refresh token (single-session logout)
+    rpc RevokeCurrentDevice(RevokeCurrentDeviceRequest) returns (RevokeResponse);
+
+    // Logout all devices by access token (global logout)
+    rpc LogoutAllDevices(LogoutAllDevicesRequest) returns (RevokeResponse);
+}
+
+
+message SendOTPRequest {
+    string phone_number = 1;
+}
+
+message SendOTPResponse {
+    string message = 1; 
+}
+
+message VerifyOTPRequest {
+    string phone_number = 1;
+    string otp_code = 2;
+}
+
+message VerifyOTPResponse {
+    // Keep field numbers aligned with server's generated code (auth.pb.go)
+    User user = 1;              // optional in response; server may omit setting it
+    string access_token = 2;    // access token string (JWT)
+    string refresh_token = 3;   // refresh token string (JWT)
+}
+
+// === Token Management Messages ===
+
+message ValidateTokenRequest {
+    string access_token = 1;
+}
+
+message ValidateTokenResponse {
+    bool is_valid = 1;
+    string user_id = 2; // Return user_id for downstream services
+}
+
+message RefreshTokenRequest {
+    string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+    // On refresh rotation, server returns both a new access and a new refresh token
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+// === Revocation Messages ===
+message RevokeCurrentDeviceRequest {
+    string refresh_token = 1;
+}
+
+message LogoutAllDevicesRequest {
+    string access_token = 1;
+}
+
+message RevokeResponse {
+    bool success = 1;
+}
+

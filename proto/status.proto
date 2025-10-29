@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package status;
+
+option go_package = "github.com/your-username/goWhatsapp/proto/status";
+
+service StatusService {
+    rpc CreateStatus(CreateStatusRequest) returns (CreateStatusResponse);
+    rpc GetStatuses(GetStatusesRequest) returns (GetStatusesResponse);
+}
+
+message CreateStatusRequest {
+    string user_id = 1;
+    string content = 2;
+}
+
+message CreateStatusResponse {
+    string status_id = 1;
+}
+
+message GetStatusesRequest {
+    string user_id = 1;
+}
+
+message GetStatusesResponse {
+    repeated Status statuses = 1;
+}
+
+message Status {
+    string id = 1;
+    string content = 2;
+    string created_at = 3;
+}
